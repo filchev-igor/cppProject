@@ -6,14 +6,16 @@
 
 #IncludeRegexTransform: 
 
-/cygdrive/c/Users/filch/CLionProjects/cppProject/main.cpp
-iostream
--
-./v0.1/Student.h
-/cygdrive/c/Users/filch/CLionProjects/cppProject/v0.1/Student.h
-
 /cygdrive/c/Users/filch/CLionProjects/cppProject/v0.1/Student.cpp
 iostream
+-
+random
+-
+fstream
+-
+sstream
+-
+iterator
 -
 Student.h
 /cygdrive/c/Users/filch/CLionProjects/cppProject/v0.1/Student.h

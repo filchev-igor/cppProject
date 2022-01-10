@@ -1,5 +1,8 @@
-
 #include <iostream>
+#include <random>
+#include <fstream>
+#include <sstream>
+#include <iterator>
 #include "Student.h"
 
 Student::Student() = default;
@@ -36,12 +39,13 @@ Student::~Student() {
 
 void Student::handleInput() {
     int homeworksNumber;
-    double homeworksMarkResult = 0;
 
     string inputName;
     string inputSurname;
     vector<double> inputHomeworksMark;
     double inputExamMark = 0.0;
+    bool areResultsRandom = false;
+    int inputValue = 0;
 
     cout << NAME_LT << endl;
     cin >> inputName;
@@ -49,44 +53,70 @@ void Student::handleInput() {
     cout << SURNAME_LT << endl;
     cin >> inputSurname;
 
-    cout << SEMESTER_HOMEWORK_NUMBER << endl;
-    cin >> homeworksNumber;
+    cout << RANDOM_MARKS_RESULT << endl;
+    cin >> inputValue;
 
-    for (int i = 0; i < homeworksNumber; i++) {
-        double mark;
+    if (inputValue)
+        areResultsRandom = true;
 
-        cout << i + 1 << " " << HOMEWORK_MARK << endl;
-        cin >> mark;
+    if (areResultsRandom) {
+        random_device rd;   // non-deterministic generator
+        mt19937 gen(rd());  // to seed mersenne twister.
+        uniform_int_distribution<> generatedHomeworksNumber(1,5);
+        uniform_int_distribution<> generatedMark(1,10);
 
-        inputHomeworksMark.push_back(mark);
+        homeworksNumber = generatedHomeworksNumber(gen);
+
+        for (int i = 0; i < homeworksNumber; i++) {
+            inputHomeworksMark.push_back(generatedMark(gen));
+        }
+
+        inputExamMark = generatedMark(gen);
     }
+    else {
+        cout << SEMESTER_HOMEWORK_NUMBER << endl;
+        cin >> homeworksNumber;
 
-    cout << EXAM_MARK << endl;
-    cin >> inputExamMark;
+        for (int i = 0; i < homeworksNumber; i++) {
+            double mark;
+
+            cout << i + 1 << " " << HOMEWORK_MARK << endl;
+            cin >> mark;
+
+            inputHomeworksMark.push_back(mark);
+        }
+
+        cout << EXAM_MARK << endl;
+        cin >> inputExamMark;
+    }
 
     setName(inputName);
     setSurname(inputSurname);
     setHomeworksMark(inputHomeworksMark);
     setExamMark(inputExamMark);
 
-    cout << "Call printData method to see the results" << endl;
+    writeFile();
 }
 
 void Student::printData() {
     double homeworksMarkResult = 0;
-    int chosenValue;
+    bool isCalculatedByMean = false;
+    int inputValue;
 
-    cout << "How would you like to count homework marks (mean or median)?";
-    cout << " 1 for mean and 2 for median" << endl;
-    cin  >> chosenValue;
+    cout << HOMEWORK_COUNT_QUESTION << endl;
+    cout << HOMEWORK_COUNT_ANSWER << endl;
+    cin  >> inputValue;
 
-    if (chosenValue == 1) {
+    if (inputValue == 1)
+        isCalculatedByMean = true;
+
+    if (isCalculatedByMean) {
         for (double mark: homeworksMark)
             homeworksMarkResult += mark;
 
         homeworksMarkResult /= (double) homeworksMark.size();
     }
-    else if (chosenValue == 2) {
+    else {
         int arrayLength = (int) homeworksMark.size();
 
         if (arrayLength % 2 == 1) {
@@ -104,6 +134,120 @@ void Student::printData() {
     const double finalMark = 0.4 * homeworksMarkResult + 0.6 * examMark;
 
     cout << SURNAME_LT << " " << NAME_LT << " ";
-    cout << (chosenValue == 1 ? RESULT_MARK_MEAN_LT : RESULT_MARK_MEDIAN_LT) << endl;
+    cout << (isCalculatedByMean == 1 ? RESULT_MARK_MEAN_LT : RESULT_MARK_MEDIAN_LT) << endl;
     cout << name << " " << surname << " " << finalMark << endl;
+}
+
+void Student::createFile() {
+    ofstream fileOut;
+
+    fileOut.open(FILE_NAME, ios_base::app);
+
+    fileOut << "Pavarde Vardas ND1 ND2 ND3 ND4 ND5 Egzaminas" << endl;
+}
+
+void Student::writeFile() {
+    ofstream fileOut;
+
+    fileOut.open(FILE_NAME, ios_base::app);
+
+    fileOut << surname << "  " << name << "  ";
+
+    for (double mark: homeworksMark)
+        fileOut << mark << "   ";
+
+    const int length = (int) homeworksMark.size();
+
+    for (int i = 0; i < 5 - length; i++)
+        fileOut << 0 << " ";
+
+    fileOut << examMark << endl;
+}
+
+void Student::readFile() {
+    ifstream fileIn(FILE_NAME);
+    //vector<string> data;
+
+    if (!fileIn.is_open())
+        return;
+
+    string inputData = string((istreambuf_iterator<char>(fileIn)), istreambuf_iterator<char>());
+
+    string separator = " ";
+
+
+    splitString(inputData);
+    /*
+    for (char letter : inputData) {
+        if (letter !== ' ') {
+            //letter += j;
+        }
+    }
+     */
+
+}
+
+void Student::splitString(const string& s, const string& separator) {
+    size_t start = 0;
+    size_t end = s.find(separator);
+
+    vector<string> stringVector;
+    vector<vector<string>> arrayVector;
+
+    int i = 0;
+
+    while (end != string::npos) {
+        string word = s.substr(start, end - start);
+
+        if (i > 6) {
+            const size_t lineBreakStart = start;
+            const size_t lineBreakEnd = s.find('\n', start);
+
+            string wordBeforeLineBreak = s.substr(lineBreakStart, lineBreakEnd - lineBreakStart);
+
+            //cout << wordBeforeLineBreak << " " << lineBreakStart << " " << lineBreakEnd << " " << s.size() << endl;
+
+            start = lineBreakEnd + 1;
+            end = s.find(separator, start);
+
+            stringVector.push_back(wordBeforeLineBreak);
+
+            arrayVector.push_back(stringVector);
+
+            stringVector.resize(0);
+
+            i = 0;
+        }
+        else {
+            stringVector.push_back(word);
+
+            start = end + separator.size();
+            end = s.find(separator, start) != string::npos
+                    ? s.find(separator, start)
+                    : s.size();
+
+            i++;
+        }
+    }
+
+    sort(arrayVector.begin(), arrayVector.end(),
+         [](const vector<string>& a, const vector<string>& b) {
+            string surnameA = a[0];
+            string surnameB = b[0];
+
+            if (surnameA == "Pavarde")
+                return surnameA < surnameB;
+            else if (surnameB == "Pavarde")
+                return surnameB < surnameA;
+
+            return surnameA < surnameB;
+        });
+
+    for (const vector sVector: arrayVector) {
+        for (const string dataString: sVector) {
+            cout << dataString << " ";
+        }
+
+        cout << endl;
+    }
 }
