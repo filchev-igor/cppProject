@@ -96,6 +96,8 @@ void Student::handleInput() {
     setExamMark(inputExamMark);
 
     writeFile();
+
+    printData();
 }
 
 void Student::printData() {
@@ -151,10 +153,10 @@ void Student::writeFile() {
 
     fileOut.open(FILE_NAME, ios_base::app);
 
-    fileOut << surname << "  " << name << "  ";
+    fileOut << surname << " " << name << " ";
 
     for (double mark: homeworksMark)
-        fileOut << mark << "   ";
+        fileOut << mark << " ";
 
     const int length = (int) homeworksMark.size();
 
@@ -166,7 +168,6 @@ void Student::writeFile() {
 
 void Student::readFile() {
     ifstream fileIn(FILE_NAME);
-    //vector<string> data;
 
     if (!fileIn.is_open())
         return;
@@ -176,18 +177,40 @@ void Student::readFile() {
     string separator = " ";
 
 
-    splitString(inputData);
-    /*
-    for (char letter : inputData) {
-        if (letter !== ' ') {
-            //letter += j;
+    vector<vector<string>> arrayVector = splitString(inputData);
+
+    sort(arrayVector.begin(), arrayVector.end(),
+         [](const vector<string>& a, const vector<string>& b) {
+             string surnameA = a[0];
+             string surnameB = b[0];
+
+             if (surnameA == SURNAME_LT)
+                 return surnameA < surnameB;
+             else if (surnameB == SURNAME_LT)
+                 return surnameB < surnameA;
+
+             return surnameA < surnameB;
+         });
+
+    for (const vector sVector: arrayVector) {
+        for (const string& dataString: sVector) {
+            string stringMixin;
+            const int mixinLength = 10 - (int) dataString.size();
+
+            for (int i = 0; i < mixinLength; i++)
+                stringMixin += " ";
+
+            const string printString = dataString + stringMixin;
+
+            cout << printString << " ";
         }
+
+        cout << endl;
     }
-     */
 
 }
 
-void Student::splitString(const string& s, const string& separator) {
+vector<vector<string>> Student::splitString(const string& s, const string& separator) {
     size_t start = 0;
     size_t end = s.find(separator);
 
@@ -204,8 +227,6 @@ void Student::splitString(const string& s, const string& separator) {
             const size_t lineBreakEnd = s.find('\n', start);
 
             string wordBeforeLineBreak = s.substr(lineBreakStart, lineBreakEnd - lineBreakStart);
-
-            //cout << wordBeforeLineBreak << " " << lineBreakStart << " " << lineBreakEnd << " " << s.size() << endl;
 
             start = lineBreakEnd + 1;
             end = s.find(separator, start);
@@ -230,24 +251,21 @@ void Student::splitString(const string& s, const string& separator) {
         }
     }
 
-    sort(arrayVector.begin(), arrayVector.end(),
-         [](const vector<string>& a, const vector<string>& b) {
-            string surnameA = a[0];
-            string surnameB = b[0];
+    return arrayVector;
+}
 
-            if (surnameA == "Pavarde")
-                return surnameA < surnameB;
-            else if (surnameB == "Pavarde")
-                return surnameB < surnameA;
+void Student::handleInputState() {
+    bool isAddingData = false;
+    int inputValue;
 
-            return surnameA < surnameB;
-        });
+    cout << IS_ADDING_DATA << endl;
+    cin >> inputValue;
 
-    for (const vector sVector: arrayVector) {
-        for (const string dataString: sVector) {
-            cout << dataString << " ";
-        }
+    if (inputValue)
+        isAddingData = true;
 
-        cout << endl;
-    }
+    if (isAddingData)
+        handleInput();
+    else
+        readFile();
 }

@@ -21,6 +21,8 @@ const string HOMEWORK_COUNT_ANSWER  = "Press 1 to get results by mean. If someth
 
 const string FILE_NAME = "kursiokai.txt";
 
+const string IS_ADDING_DATA = "Do you want to add data? Press 1 for yes. Press 0 to view data only.";
+
 class Student {
 private:
     string name;
@@ -34,13 +36,19 @@ public:
 
     ~Student();
 
-    void handleInput();
-
+    /*
+     * Prints data
+     */
     void printData();
 
     void readFile();
 
     void createFile();
+
+    /*
+     * Asks if user wants to add new data. In other case prints data from file
+     */
+    void handleInputState();
 
 private:
     void setName(string name);
@@ -53,10 +61,15 @@ private:
 
     void writeFile();
 
-    void splitString(const string& s, const string& separator = " ");
+    /*
+     * Splits string into 2d vector
+     */
+    vector<vector<string>> splitString(const string& s, const string& separator = " ");
 
-
-
+    /*
+     * Adds data by the input request. Supports random data adding. Prints new data after adding.
+     */
+    void handleInput();
 };
 
 
