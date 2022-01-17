@@ -4,8 +4,9 @@
 int main() {
     Student student;
 
-    student.handleInput();
-    student.printData();
+    //student.handleInput();
+    //student.printData();
+    student.readFile();
 
     return 0;
 }

@@ -15,16 +15,18 @@ const string HOMEWORK_MARK = "homework mark";
 const string EXAM_MARK = "exam mark";
 const string RESULT_MARK_MEAN_LT = "Galutinis (Vid.)";
 const string RESULT_MARK_MEDIAN_LT = "Galutinis (Med.)";
+const string RANDOM_MARKS_RESULT = "Press 1 to generate random marks. Press anything else to input data manually";
+const string HOMEWORK_COUNT_QUESTION = "How would you like to count homework marks (mean or median)?";
+const string HOMEWORK_COUNT_ANSWER  = "Press 1 to get results by mean. If something else is pressed, the results will be calculated by median";
 
+const string FILE_NAME = "kursiokai.txt";
 
 class Student {
 private:
     string name;
     string surname;
-
     vector<double> homeworksMark;
     double examMark;
-
 public:
     Student();
 
@@ -36,6 +38,10 @@ public:
 
     void printData();
 
+    void readFile();
+
+    void createFile();
+
 private:
     void setName(string name);
 
@@ -44,6 +50,13 @@ private:
     void setHomeworksMark(vector<double> homeworksMark);
 
     void setExamMark(double examMark);
+
+    void writeFile();
+
+    void splitString(const string& s, const string& separator = " ");
+
+
+
 };
 
 
