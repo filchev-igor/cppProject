@@ -101,42 +101,12 @@ void Student::handleInput() {
 }
 
 void Student::printData() {
-    double homeworksMarkResult = 0;
-    bool isCalculatedByMean = false;
-    int inputValue;
+    const bool isMeanResult = isCalculatedByMean();
 
-    cout << HOMEWORK_COUNT_QUESTION << endl;
-    cout << HOMEWORK_COUNT_ANSWER << endl;
-    cin  >> inputValue;
-
-    if (inputValue == 1)
-        isCalculatedByMean = true;
-
-    if (isCalculatedByMean) {
-        for (double mark: homeworksMark)
-            homeworksMarkResult += mark;
-
-        homeworksMarkResult /= (double) homeworksMark.size();
-    }
-    else {
-        int arrayLength = (int) homeworksMark.size();
-
-        if (arrayLength % 2 == 1) {
-            int position = (arrayLength + 1) / 2;
-
-            homeworksMarkResult = homeworksMark[position];
-        }
-        else {
-            int position = arrayLength / 2;
-
-            homeworksMarkResult = (homeworksMark[position] + homeworksMark[position + 1]) / 2;
-        }
-    }
-
-    const double finalMark = 0.4 * homeworksMarkResult + 0.6 * examMark;
+    const double finalMark = calculateFinalMark(homeworksMark, examMark, isMeanResult);
 
     cout << SURNAME_LT << " " << NAME_LT << " ";
-    cout << (isCalculatedByMean == 1 ? RESULT_MARK_MEAN_LT : RESULT_MARK_MEDIAN_LT) << endl;
+    cout << (isMeanResult == 1 ? RESULT_MARK_MEAN_LT : RESULT_MARK_MEDIAN_LT) << endl;
     cout << name << " " << surname << " " << finalMark << endl;
 }
 
@@ -167,22 +137,63 @@ void Student::writeFile() {
 }
 
 void Student::readFile() {
+    vector<vector<string>> modifiedVector;
+
     ifstream fileIn(FILE_NAME);
 
     if (!fileIn.is_open())
         return;
 
+    const bool isMeanResult = isCalculatedByMean();
+
     string inputData = string((istreambuf_iterator<char>(fileIn)), istreambuf_iterator<char>());
-
-    string separator = " ";
-
 
     vector<vector<string>> arrayVector = splitString(inputData);
 
-    sort(arrayVector.begin(), arrayVector.end(),
+    for (const vector sVector: arrayVector) {
+        vector<double> homeworkMarksVector;
+        vector<string> outputVector;
+
+        homeworkMarksVector.resize(0);
+        outputVector.resize(0);
+
+        const int vectorLength = sVector.size();
+
+        for (int i = 2; i < vectorLength - 1; i++) {
+            if (sVector[0] == SURNAME_LT)
+                break;
+
+            double mark = std::stod(sVector[i]);
+
+            if (mark < 0)
+               continue;
+
+            homeworkMarksVector.push_back(mark);
+        }
+
+        outputVector.push_back(sVector[0]);
+        outputVector.push_back(sVector[1]);
+
+        if (sVector[0] == SURNAME_LT) {
+            outputVector.push_back(isMeanResult ? RESULT_MARK_MEAN_LT : RESULT_MARK_MEDIAN_LT);
+        }
+        else {
+            double extractedExamMark = stod(sVector[vectorLength - 1]);
+            double finalMark = calculateFinalMark(homeworkMarksVector, extractedExamMark, isMeanResult);
+            string stringFinalMark = to_string(finalMark);
+
+            outputVector.push_back(stringFinalMark);
+        }
+
+        modifiedVector.push_back(outputVector);
+    }
+
+    sort(modifiedVector.begin(), modifiedVector.end(),
          [](const vector<string>& a, const vector<string>& b) {
              string surnameA = a[0];
              string surnameB = b[0];
+
+             cout << surnameA << ":" << surnameB << endl;
 
              if (surnameA == SURNAME_LT)
                  return surnameA < surnameB;
@@ -192,7 +203,7 @@ void Student::readFile() {
              return surnameA < surnameB;
          });
 
-    for (const vector sVector: arrayVector) {
+    for (const vector sVector: modifiedVector) {
         for (const string& dataString: sVector) {
             string stringMixin;
             const int mixinLength = 10 - (int) dataString.size();
@@ -207,7 +218,6 @@ void Student::readFile() {
 
         cout << endl;
     }
-
 }
 
 vector<vector<string>> Student::splitString(const string& s, const string& separator) {
@@ -217,16 +227,23 @@ vector<vector<string>> Student::splitString(const string& s, const string& separ
     vector<string> stringVector;
     vector<vector<string>> arrayVector;
 
-    int i = 0;
-
     while (end != string::npos) {
-        string word = s.substr(start, end - start);
+        const string word = s.substr(start, end - start);
 
-        if (i > 6) {
-            const size_t lineBreakStart = start;
+        const size_t wordLineBreakEnd = word.find('\n');
+
+        if (wordLineBreakEnd == string::npos) {
+            start = end + separator.size();
+            end = s.find(separator, start) != string::npos
+                  ? s.find(separator, start)
+                  : s.size();
+
+            stringVector.push_back(word);
+        }
+        else {const size_t lineBreakStart = start;
             const size_t lineBreakEnd = s.find('\n', start);
 
-            string wordBeforeLineBreak = s.substr(lineBreakStart, lineBreakEnd - lineBreakStart);
+            const string wordBeforeLineBreak = s.substr(lineBreakStart, lineBreakEnd - lineBreakStart);
 
             start = lineBreakEnd + 1;
             end = s.find(separator, start);
@@ -236,18 +253,6 @@ vector<vector<string>> Student::splitString(const string& s, const string& separ
             arrayVector.push_back(stringVector);
 
             stringVector.resize(0);
-
-            i = 0;
-        }
-        else {
-            stringVector.push_back(word);
-
-            start = end + separator.size();
-            end = s.find(separator, start) != string::npos
-                    ? s.find(separator, start)
-                    : s.size();
-
-            i++;
         }
     }
 
@@ -268,4 +273,45 @@ void Student::handleInputState() {
         handleInput();
     else
         readFile();
+}
+
+double Student::calculateFinalMark(vector<double> homeworkMarksVector, double ExamMarkVar, bool isCalculatedByMean) {
+    double homeworksMarkResult = 0;
+
+    if (isCalculatedByMean) {
+        for (double mark: homeworkMarksVector)
+            homeworksMarkResult += mark;
+
+        homeworksMarkResult /= (double) homeworkMarksVector.size();
+    }
+    else {
+        int arrayLength = (int) homeworkMarksVector.size();
+
+        if (arrayLength % 2 == 1) {
+            int position = (arrayLength + 1) / 2;
+
+            homeworksMarkResult = homeworkMarksVector[position];
+        }
+        else {
+            int position = arrayLength / 2;
+
+            homeworksMarkResult = (homeworkMarksVector[position] + homeworkMarksVector[position + 1]) / 2;
+        }
+    }
+
+    return 0.4 * homeworksMarkResult + 0.6 * ExamMarkVar;
+}
+
+bool Student::isCalculatedByMean() {
+    bool isCalculatedByMean = false;
+    int inputValue;
+
+    cout << HOMEWORK_COUNT_QUESTION << endl;
+    cout << HOMEWORK_COUNT_ANSWER << endl;
+    cin  >> inputValue;
+
+    if (inputValue == 1)
+        isCalculatedByMean = true;
+
+    return isCalculatedByMean;
 }

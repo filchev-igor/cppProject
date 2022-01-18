@@ -70,6 +70,13 @@ private:
      * Adds data by the input request. Supports random data adding. Prints new data after adding.
      */
     void handleInput();
+
+    double calculateFinalMark(vector<double> homeworkMarksVector, double convertedExamMark, bool isCalculatedByMean);
+
+    /*
+     * Runs asking sentence about way of calculation (by mean or median)
+     */
+    bool isCalculatedByMean();
 };
 
 
