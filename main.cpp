@@ -21,7 +21,7 @@ int main() {
     //Time elapsed ~0.30 seconds
     //student.fillFileWithRandomData();
 
-    //Lines of codes 609. Fill name "55"
+    //Lines of codes 1217. Fill name "55"
     //Change vector to deque or list with CTRL_R command. Use match case and words
     //Time elapsed in seconds
     //Deque 0.031
