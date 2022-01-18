@@ -89,6 +89,12 @@
 		<Unit filename="/cygdrive/c/Users/filch/CLionProjects/cppProject/v0.1/Student.h">
 			<Option target="cppProject"/>
 		</Unit>
+		<Unit filename="/cygdrive/c/Users/filch/CLionProjects/cppProject/v0.2/SortedStudent.cpp">
+			<Option target="cppProject"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/filch/CLionProjects/cppProject/v0.2/SortedStudent.h">
+			<Option target="cppProject"/>
+		</Unit>
 		<Unit filename="/cygdrive/c/Users/filch/CLionProjects/cppProject/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
