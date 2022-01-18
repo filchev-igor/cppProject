@@ -120,7 +120,7 @@ void SortedStudent::createFile() {
     if (inputValue != 1)
         return;
 
-    cout << NEW_FILE_NAME << endl;
+    cout << TYPE_FILE_NAME << endl;
     cin >> fileName;
 
     ofstream fileOut;
@@ -221,7 +221,7 @@ void SortedStudent::readFile() {
     for (const vector sVector: modifiedVector) {
         for (const string& dataString: sVector) {
             string stringMixin;
-            const int mixinLength = 10 - (int) dataString.size();
+            const int mixinLength = STRING_MIXIN_SIZE - (int) dataString.size();
 
             for (int i = 0; i < mixinLength; i++)
                 stringMixin += " ";
@@ -255,7 +255,8 @@ vector<vector<string>> SortedStudent::splitString(const string& s, const string&
 
             stringVector.push_back(word);
         }
-        else {const size_t lineBreakStart = start;
+        else {
+            const size_t lineBreakStart = start;
             const size_t lineBreakEnd = s.find('\n', start);
 
             const string wordBeforeLineBreak = s.substr(lineBreakStart, lineBreakEnd - lineBreakStart);
@@ -335,7 +336,7 @@ void SortedStudent::fillFileWithRandomData() {
     string fileName = DEFAULT_FILE_NAME;
     int cycleNumber;
 
-    cout << INSERT_FILE << endl;
+    cout << TYPE_FILE_NAME << endl;
     cin >> fileName;
 
     cout << CYCLE_NUMBER_QUESTION << endl;
@@ -427,4 +428,141 @@ void SortedStudent::fillFileWithRandomData() {
     }
 
     fileOut.close();
+}
+
+void SortedStudent::exportSortedData() {
+    vector<vector<string>> modifiedVector;
+    string fileName = DEFAULT_FILE_NAME;
+
+    cout << TYPE_FILE_NAME << endl;
+    cin >> fileName;
+
+    ifstream fileIn(fileName);
+
+    if (!fileIn.is_open())
+        return;
+
+    const bool isMeanResult = isCalculatedByMean();
+
+    string inputData = string((istreambuf_iterator<char>(fileIn)), istreambuf_iterator<char>());
+
+    fileIn.close();
+
+    vector<vector<string>> arrayVector = splitString(inputData);
+
+    for (const vector sVector: arrayVector) {
+        if (sVector[0] == SURNAME_LT)
+            continue;
+
+        vector<double> homeworkMarksVector;
+        vector<string> outputVector;
+
+        homeworkMarksVector.resize(0);
+        outputVector.resize(0);
+
+        const int vectorLength = (int) sVector.size();
+
+        for (int i = 2; i < vectorLength - 1; i++) {
+            if (sVector[0] == SURNAME_LT)
+                break;
+
+            double mark = std::stod(sVector[i]);
+
+            if (mark < 0)
+                continue;
+
+            homeworkMarksVector.push_back(mark);
+        }
+
+        outputVector.push_back(sVector[0]);
+        outputVector.push_back(sVector[1]);
+
+        //2 instead of 1 due to existing empty space after last item
+        double extractedExamMark = stod(sVector[vectorLength - 2]);
+        double finalMark = calculateFinalMark(homeworkMarksVector, extractedExamMark, isMeanResult);
+        string stringFinalMark = to_string(finalMark);
+
+        outputVector.push_back(stringFinalMark);
+
+        modifiedVector.push_back(outputVector);
+    }
+
+    sort(modifiedVector.begin(), modifiedVector.end(),
+         [](const vector<string>& a, const vector<string>& b) {
+             string finalMarkA = a[2];
+             string finalMarkB = b[2];
+
+             return finalMarkA > finalMarkB;
+         });
+
+    vector<vector<string>> passedStudentsVector;
+    vector<vector<string>> failedStudentsVector;
+
+    for (const vector sVector: modifiedVector) {
+        const double mark = stod(sVector[2]);
+
+        vector<string> passedStudentsV;
+        vector<string> failedStudentsV;
+
+        passedStudentsV.resize(0);
+        failedStudentsV.resize(0);
+
+        if (mark > 5) {
+            passedStudentsV.push_back(sVector[0]);
+            passedStudentsV.push_back(sVector[1]);
+            passedStudentsV.push_back(sVector[2]);
+
+            passedStudentsVector.push_back(passedStudentsV);
+        }
+        else {
+            failedStudentsV.push_back(sVector[0]);
+            failedStudentsV.push_back(sVector[1]);
+            failedStudentsV.push_back(sVector[2]);
+
+            failedStudentsVector.push_back(failedStudentsV);
+        }
+    }
+
+    vector<string> headVector;
+
+    headVector.push_back(arrayVector[0][0]);
+    headVector.push_back(arrayVector[0][1]);
+    headVector.push_back(isMeanResult ? RESULT_MARK_MEAN_LT : RESULT_MARK_MEDIAN_LT);
+
+    modifiedVector.insert(modifiedVector.begin(), headVector);
+    passedStudentsVector.insert(passedStudentsVector.begin(), headVector);
+    failedStudentsVector.insert(failedStudentsVector.begin(), headVector);
+
+    ofstream fileOutPassedStudents;
+    ofstream fileOutFailedStudents;
+
+    fileOutPassedStudents.open(fileName + "_passed_students", ios_base::app);
+
+    for (vector<string> outputV: passedStudentsVector) {
+        string outputString;
+
+        for (const string s: outputV) {
+            outputString += s;
+            outputString += " ";
+        }
+
+        fileOutPassedStudents << outputString << endl;
+    }
+
+    fileOutPassedStudents.close();
+
+    fileOutFailedStudents.open(fileName + "_failed_students", ios_base::app);
+
+    for (vector<string> outputV: failedStudentsVector) {
+        string outputString;
+
+        for (const string s: outputV) {
+            outputString += s;
+            outputString += " ";
+        }
+
+        fileOutFailedStudents << outputString << endl;
+    }
+
+    fileOutFailedStudents.close();
 }

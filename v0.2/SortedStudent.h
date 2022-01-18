@@ -22,12 +22,14 @@ const string HOMEWORK_COUNT_ANSWER  = "Press 1 to get results by mean. If someth
 const string DEFAULT_FILE_NAME = "kursiokai.txt";
 
 const string CREATE_FILE_QUESTION = "Do you want to create file? Press 1 for yes and 0 for no";
-const string NEW_FILE_NAME = "Type name of the new file";
 
-const string INSERT_FILE = "File name for adding data";
+const string TYPE_FILE_NAME = "Type file name";
+
 const string CYCLE_NUMBER_QUESTION = "Type number of cycles, please (~100 max)";
 
 const string IS_ADDING_DATA = "Do you want to add data? Press 1 for yes. Press 0 to view data only.";
+
+const int STRING_MIXIN_SIZE = 10;
 
 class SortedStudent {
 private:
@@ -58,6 +60,8 @@ public:
 
     void fillFileWithRandomData();
 
+    void exportSortedData();
+
 private:
     void setName(string name);
 
@@ -85,6 +89,8 @@ private:
      * Runs asking sentence about way of calculation (by mean or median)
      */
     bool isCalculatedByMean();
+
+
 };
 
 
