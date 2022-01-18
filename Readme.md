@@ -1,51 +1,59 @@
-*Change import, because versions are differed*
+**Change import, because versions are differed**
 
 ###v0.1
 In order to run in main file use next code:
 
-`Student student;
+```
+Student student;
 
-student.handleInputState();`
+student.handleInputState();
+```
 
 ###v0.2
 In order to run in main file use next code:
 
-``clock_t start;
+```
+clock_t start;
 double duration;
 
 start = clock();
 
-SortedStudent student;``
+SortedStudent student;
+```
 
 Time elapsed 0 seconds
-*Function creates new file*
+
+**Function creates new file**
 
 `student.createFile();`
 
 Time elapsed ~0.30 seconds
-*Function for filling data with some random data*
-`student.fillFileWithRandomData();`
+**Function for filling data with some random data**
+```
+student.fillFileWithRandomData();
+```
 
-Lines of codes 1217. Fill name "55"
+Lines of codes 1217. Fill name **55**
 Change vector to deque or list with CTRL_R command. Use match case and words
 Time elapsed in seconds
 Deque 0.031
 Vector 0.047
-*Function reads data from file, sorts and writes to new files with the passed and failed student results*
-
-`student.exportSortedData();
+**Function reads data from file, sorts and writes to new files with the passed and failed student results**
+```
+student.exportSortedData();
 
 duration = ( clock() - start ) / (double) CLOCKS_PER_SEC;
 
-cout<<"Time elapsed (in seconds): "<< duration <<'\n';`
+cout<<"Time elapsed (in seconds): "<< duration <<'\n';
+```
 
 ###v1.0
 
-In version v0.2 I have used *first* strategy. I think, that it is better strategy, because initial file stays untouched 
+In version v0.2 I have used **first** strategy. I think, that it is better strategy, because initial file stays untouched 
 by the algorithm and in case of using files for saving data (not any relational databases on the laptop (MySQL, etc.) or NoSQL
 one's like MongoDB, etc.) this strategy allows programmer not to lose initial data by some mistake in his code.
 
-*Task to split initial data by marks 5 was done in version v0.2*
+**Task to split initial data by marks 5 was done in version v0.2**
 
 Functions for discover:
 1. std::find
