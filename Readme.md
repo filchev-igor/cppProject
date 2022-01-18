@@ -1,6 +1,7 @@
 **Change import, because versions are differed**
 
-###v0.1
+## v0.1
+
 In order to run in main file use next code:
 
 ```
@@ -9,7 +10,8 @@ Student student;
 student.handleInputState();
 ```
 
-###v0.2
+## v0.2
+
 In order to run in main file use next code:
 
 ```
@@ -47,7 +49,7 @@ duration = ( clock() - start ) / (double) CLOCKS_PER_SEC;
 cout<<"Time elapsed (in seconds): "<< duration <<'\n';
 ```
 
-###v1.0
+## v1.0
 
 In version v0.2 I have used **first** strategy. I think, that it is better strategy, because initial file stays untouched 
 by the algorithm and in case of using files for saving data (not any relational databases on the laptop (MySQL, etc.) or NoSQL
