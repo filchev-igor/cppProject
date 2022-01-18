@@ -70,6 +70,8 @@ private:
      * Adds data by the input request. Supports random data adding. Prints new data after adding.
      */
     void handleInput();
+
+    void calculateFinalMark();
 };
 
 

@@ -217,16 +217,26 @@ vector<vector<string>> Student::splitString(const string& s, const string& separ
     vector<string> stringVector;
     vector<vector<string>> arrayVector;
 
-    int i = 0;
-
     while (end != string::npos) {
-        string word = s.substr(start, end - start);
+        const string word = s.substr(start, end - start);
 
-        if (i > 6) {
+        const size_t wordLineBreakEnd = word.find('\n');
+
+        if (wordLineBreakEnd == string::npos) {
+            start = end + separator.size();
+            end = s.find(separator, start) != string::npos
+                  ? s.find(separator, start)
+                  : s.size();
+
+            stringVector.push_back(word);
+        }
+        else {
+            cout << word << endl;
+
             const size_t lineBreakStart = start;
             const size_t lineBreakEnd = s.find('\n', start);
 
-            string wordBeforeLineBreak = s.substr(lineBreakStart, lineBreakEnd - lineBreakStart);
+            const string wordBeforeLineBreak = s.substr(lineBreakStart, lineBreakEnd - lineBreakStart);
 
             start = lineBreakEnd + 1;
             end = s.find(separator, start);
@@ -236,18 +246,6 @@ vector<vector<string>> Student::splitString(const string& s, const string& separ
             arrayVector.push_back(stringVector);
 
             stringVector.resize(0);
-
-            i = 0;
-        }
-        else {
-            stringVector.push_back(word);
-
-            start = end + separator.size();
-            end = s.find(separator, start) != string::npos
-                    ? s.find(separator, start)
-                    : s.size();
-
-            i++;
         }
     }
 
@@ -257,6 +255,10 @@ vector<vector<string>> Student::splitString(const string& s, const string& separ
 void Student::handleInputState() {
     bool isAddingData = false;
     int inputValue;
+
+    readFile();
+
+    /*
 
     cout << IS_ADDING_DATA << endl;
     cin >> inputValue;
@@ -268,4 +270,45 @@ void Student::handleInputState() {
         handleInput();
     else
         readFile();
+        */
+}
+
+void Student::calculateFinalMark() {
+    double homeworksMarkResult = 0;
+    bool isCalculatedByMean = false;
+    int inputValue;
+
+    cout << HOMEWORK_COUNT_QUESTION << endl;
+    cout << HOMEWORK_COUNT_ANSWER << endl;
+    cin  >> inputValue;
+
+    if (inputValue == 1)
+        isCalculatedByMean = true;
+
+    if (isCalculatedByMean) {
+        for (double mark: homeworksMark)
+            homeworksMarkResult += mark;
+
+        homeworksMarkResult /= (double) homeworksMark.size();
+    }
+    else {
+        int arrayLength = (int) homeworksMark.size();
+
+        if (arrayLength % 2 == 1) {
+            int position = (arrayLength + 1) / 2;
+
+            homeworksMarkResult = homeworksMark[position];
+        }
+        else {
+            int position = arrayLength / 2;
+
+            homeworksMarkResult = (homeworksMark[position] + homeworksMark[position + 1]) / 2;
+        }
+    }
+
+    const double finalMark = 0.4 * homeworksMarkResult + 0.6 * examMark;
+
+    cout << SURNAME_LT << " " << NAME_LT << " ";
+    cout << (isCalculatedByMean == 1 ? RESULT_MARK_MEAN_LT : RESULT_MARK_MEDIAN_LT) << endl;
+    cout << name << " " << surname << " " << finalMark << endl;
 }
