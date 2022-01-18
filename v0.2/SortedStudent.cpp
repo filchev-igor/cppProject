@@ -446,6 +446,8 @@ void SortedStudent::exportSortedData() {
 
     string inputData = string((istreambuf_iterator<char>(fileIn)), istreambuf_iterator<char>());
 
+    fileIn.close();
+
     vector<vector<string>> arrayVector = splitString(inputData);
 
     for (const vector sVector: arrayVector) {
@@ -493,6 +495,34 @@ void SortedStudent::exportSortedData() {
              return finalMarkA > finalMarkB;
          });
 
+    vector<vector<string>> passedStudentsVector;
+    vector<vector<string>> failedStudentsVector;
+
+    for (const vector sVector: modifiedVector) {
+        const double mark = stod(sVector[2]);
+
+        vector<string> passedStudentsV;
+        vector<string> failedStudentsV;
+
+        passedStudentsV.resize(0);
+        failedStudentsV.resize(0);
+
+        if (mark > 5) {
+            passedStudentsV.push_back(sVector[0]);
+            passedStudentsV.push_back(sVector[1]);
+            passedStudentsV.push_back(sVector[2]);
+
+            passedStudentsVector.push_back(passedStudentsV);
+        }
+        else {
+            failedStudentsV.push_back(sVector[0]);
+            failedStudentsV.push_back(sVector[1]);
+            failedStudentsV.push_back(sVector[2]);
+
+            failedStudentsVector.push_back(failedStudentsV);
+        }
+    }
+
     vector<string> headVector;
 
     headVector.push_back(arrayVector[0][0]);
@@ -500,20 +530,39 @@ void SortedStudent::exportSortedData() {
     headVector.push_back(isMeanResult ? RESULT_MARK_MEAN_LT : RESULT_MARK_MEDIAN_LT);
 
     modifiedVector.insert(modifiedVector.begin(), headVector);
+    passedStudentsVector.insert(passedStudentsVector.begin(), headVector);
+    failedStudentsVector.insert(failedStudentsVector.begin(), headVector);
 
-    for (const vector sVector: modifiedVector) {
-        for (const string& dataString: sVector) {
-            string stringMixin;
-            const int mixinLength = STRING_MIXIN_SIZE - (int) dataString.size();
+    ofstream fileOutPassedStudents;
+    ofstream fileOutFailedStudents;
 
-            for (int i = 0; i < mixinLength; i++)
-                stringMixin += " ";
+    fileOutPassedStudents.open(fileName + "_passed_students", ios_base::app);
 
-            const string printString = dataString + stringMixin;
+    for (vector<string> outputV: passedStudentsVector) {
+        string outputString;
 
-            cout << printString << " ";
+        for (const string s: outputV) {
+            outputString += s;
+            outputString += " ";
         }
 
-        cout << endl;
+        fileOutPassedStudents << outputString << endl;
     }
+
+    fileOutPassedStudents.close();
+
+    fileOutFailedStudents.open(fileName + "_failed_students", ios_base::app);
+
+    for (vector<string> outputV: failedStudentsVector) {
+        string outputString;
+
+        for (const string s: outputV) {
+            outputString += s;
+            outputString += " ";
+        }
+
+        fileOutFailedStudents << outputString << endl;
+    }
+
+    fileOutFailedStudents.close();
 }
