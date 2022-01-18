@@ -113,7 +113,7 @@ void SortedStudent::printData() {
 void SortedStudent::createFile() {
     string fileName = DEFAULT_FILE_NAME;
     int inputValue = 0;
-    
+
     cout << CREATE_FILE_QUESTION << endl;
     cin >> inputValue;
 
@@ -391,14 +391,16 @@ void SortedStudent::fillFileWithRandomData() {
 
     fileOut.open(fileName, ios_base::app);
 
+    cout << cycleNumber << endl;
+
     for (int i = 0; i < cycleNumber; i++) {
         string outputData;
         vector<string> dataVector;
 
         dataVector.resize(0);
 
-        uniform_int_distribution<> generatedHomeworksNumber(1, 10);
-        uniform_int_distribution<> generatedMark(1, 10);
+        uniform_int_distribution<int> generatedHomeworksNumber(1, 10);
+        uniform_int_distribution<int> generatedMark(1, 10);
         uniform_int_distribution<int> generatedNameKey(0, (int) nameArray.size());
         uniform_int_distribution<int> generatedSurnameKey(0, (int) surnameArray.size());
 
