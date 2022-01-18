@@ -193,8 +193,6 @@ void Student::readFile() {
              string surnameA = a[0];
              string surnameB = b[0];
 
-             cout << surnameA << ":" << surnameB << endl;
-
              if (surnameA == SURNAME_LT)
                  return surnameA < surnameB;
              else if (surnameB == SURNAME_LT)
