@@ -1,10 +1,15 @@
 #include <iostream>
-#include "./v0.1/Student.h"
+#include "./v0.2/SortedStudent.h"
 
 int main() {
-    Student student;
+    SortedStudent student;
 
+    //v0.1
     student.handleInputState();
+
+    //v0.2 Create file and fill with random values by cycle
+    //student.createFile();
+    //student.fillFileWithRandomData();
 
     return 0;
 }

@@ -177,6 +177,30 @@ v0.1/Student.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/cppProject.dir/build.make CMakeFiles/cppProject.dir/v0.1/Student.cpp.s
 .PHONY : v0.1/Student.cpp.s
 
+v0.2/SortedStudent.o: v0.2/SortedStudent.cpp.o
+.PHONY : v0.2/SortedStudent.o
+
+# target to build an object file
+v0.2/SortedStudent.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cppProject.dir/build.make CMakeFiles/cppProject.dir/v0.2/SortedStudent.cpp.o
+.PHONY : v0.2/SortedStudent.cpp.o
+
+v0.2/SortedStudent.i: v0.2/SortedStudent.cpp.i
+.PHONY : v0.2/SortedStudent.i
+
+# target to preprocess a source file
+v0.2/SortedStudent.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cppProject.dir/build.make CMakeFiles/cppProject.dir/v0.2/SortedStudent.cpp.i
+.PHONY : v0.2/SortedStudent.cpp.i
+
+v0.2/SortedStudent.s: v0.2/SortedStudent.cpp.s
+.PHONY : v0.2/SortedStudent.s
+
+# target to generate assembly for a file
+v0.2/SortedStudent.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cppProject.dir/build.make CMakeFiles/cppProject.dir/v0.2/SortedStudent.cpp.s
+.PHONY : v0.2/SortedStudent.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -192,6 +216,9 @@ help:
 	@echo "... v0.1/Student.o"
 	@echo "... v0.1/Student.i"
 	@echo "... v0.1/Student.s"
+	@echo "... v0.2/SortedStudent.o"
+	@echo "... v0.2/SortedStudent.i"
+	@echo "... v0.2/SortedStudent.s"
 .PHONY : help
 
 

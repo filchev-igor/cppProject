@@ -1,6 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/cppProject.dir/main.cpp.o"
   "CMakeFiles/cppProject.dir/v0.1/Student.cpp.o"
+  "CMakeFiles/cppProject.dir/v0.2/SortedStudent.cpp.o"
   "cppProject.exe"
   "cppProject.pdb"
   "libcppProject.dll.a"

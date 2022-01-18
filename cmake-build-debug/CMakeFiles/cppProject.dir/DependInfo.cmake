@@ -10,6 +10,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_CHECK_CXX
   "/cygdrive/c/Users/filch/CLionProjects/cppProject/main.cpp" "/cygdrive/c/Users/filch/CLionProjects/cppProject/cmake-build-debug/CMakeFiles/cppProject.dir/main.cpp.o"
   "/cygdrive/c/Users/filch/CLionProjects/cppProject/v0.1/Student.cpp" "/cygdrive/c/Users/filch/CLionProjects/cppProject/cmake-build-debug/CMakeFiles/cppProject.dir/v0.1/Student.cpp.o"
+  "/cygdrive/c/Users/filch/CLionProjects/cppProject/v0.2/SortedStudent.cpp" "/cygdrive/c/Users/filch/CLionProjects/cppProject/cmake-build-debug/CMakeFiles/cppProject.dir/v0.2/SortedStudent.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

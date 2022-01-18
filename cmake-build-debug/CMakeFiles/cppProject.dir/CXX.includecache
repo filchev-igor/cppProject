@@ -9,10 +9,10 @@
 /cygdrive/c/Users/filch/CLionProjects/cppProject/main.cpp
 iostream
 -
-./v0.1/Student.h
-/cygdrive/c/Users/filch/CLionProjects/cppProject/v0.1/Student.h
+./v0.2/SortedStudent.h
+/cygdrive/c/Users/filch/CLionProjects/cppProject/v0.2/SortedStudent.h
 
-/cygdrive/c/Users/filch/CLionProjects/cppProject/v0.1/Student.cpp
+/cygdrive/c/Users/filch/CLionProjects/cppProject/v0.2/SortedStudent.cpp
 iostream
 -
 random
@@ -23,12 +23,12 @@ sstream
 -
 iterator
 -
-Student.h
-/cygdrive/c/Users/filch/CLionProjects/cppProject/v0.1/Student.h
+SortedStudent.h
+/cygdrive/c/Users/filch/CLionProjects/cppProject/v0.2/SortedStudent.h
 
-/cygdrive/c/Users/filch/CLionProjects/cppProject/v0.1/Student.h
+/cygdrive/c/Users/filch/CLionProjects/cppProject/v0.2/SortedStudent.h
 vector
-/cygdrive/c/Users/filch/CLionProjects/cppProject/v0.1/vector
+/cygdrive/c/Users/filch/CLionProjects/cppProject/v0.2/vector
 string
-/cygdrive/c/Users/filch/CLionProjects/cppProject/v0.1/string
+/cygdrive/c/Users/filch/CLionProjects/cppProject/v0.2/string
 

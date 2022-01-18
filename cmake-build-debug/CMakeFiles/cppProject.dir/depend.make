@@ -3,7 +3,10 @@
 
 CMakeFiles/cppProject.dir/main.cpp.o: \
  ../main.cpp \
- ../v0.1/Student.h
+ ../v0.2/SortedStudent.h
 CMakeFiles/cppProject.dir/v0.1/Student.cpp.o: \
  ../v0.1/Student.cpp \
  ../v0.1/Student.h
+CMakeFiles/cppProject.dir/v0.2/SortedStudent.cpp.o: \
+ ../v0.2/SortedStudent.cpp \
+ ../v0.2/SortedStudent.h

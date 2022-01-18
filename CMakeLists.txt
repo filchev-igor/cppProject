@@ -3,4 +3,4 @@ project(cppProject)
 
 set(CMAKE_CXX_STANDARD 23)
 
-add_executable(cppProject main.cpp v0.1/Student.cpp v0.1/Student.h)
+add_executable(cppProject main.cpp v0.1/Student.cpp v0.1/Student.h v0.2/SortedStudent.cpp v0.2/SortedStudent.h)
