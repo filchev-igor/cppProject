@@ -71,7 +71,12 @@ private:
      */
     void handleInput();
 
-    void calculateFinalMark();
+    double calculateFinalMark(vector<double> homeworkMarksVector, double convertedExamMark, bool isCalculatedByMean);
+
+    /*
+     * Runs asking sentence about way of calculation (by mean or median)
+     */
+    bool isCalculatedByMean();
 };
 
 
