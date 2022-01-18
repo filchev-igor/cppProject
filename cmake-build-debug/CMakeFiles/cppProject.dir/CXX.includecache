@@ -6,6 +6,12 @@
 
 #IncludeRegexTransform: 
 
+/cygdrive/c/Users/filch/CLionProjects/cppProject/main.cpp
+iostream
+-
+./v0.2/SortedStudent.h
+/cygdrive/c/Users/filch/CLionProjects/cppProject/v0.2/SortedStudent.h
+
 /cygdrive/c/Users/filch/CLionProjects/cppProject/v0.2/SortedStudent.cpp
 iostream
 -
