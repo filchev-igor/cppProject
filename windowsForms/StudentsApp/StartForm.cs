@@ -56,12 +56,15 @@ namespace StudentsApp
         {
             disableButtons();
 
+            label1.Text = "Creating file...";
+
             FileController fileController = new FileController();
 
             fileController.createFile(_fileName);
 
             this._fileName = "";
             textBox1.Text = "";
+            label1.Text = "File was created";
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
