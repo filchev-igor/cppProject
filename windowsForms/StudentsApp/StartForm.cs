@@ -15,6 +15,7 @@ namespace StudentsApp
     {
         private string _fileName;
         private int _iterationsNumber = 100;
+        private bool _isCalculatedByMean = true;
 
         public StartForm()
         {
@@ -118,7 +119,18 @@ namespace StudentsApp
 
         private void button2_Click(object sender, EventArgs e)
         {
-            
+            disableButtons();
+
+            label2.Text = "Reading file, sorting and exporting. Please, wait a little bit...";
+
+            FileController fileController = new FileController();
+
+            fileController.dataSortExport(_fileName, _isCalculatedByMean);
+
+            this._fileName = "";
+            textBox1.Text = "";
+            textBox2.Text = "";
+            label2.Text = "Everything is done.";
         }
 
         private void textBox2_TextChanged(object sender, EventArgs e)
@@ -128,6 +140,22 @@ namespace StudentsApp
             Int32.TryParse(textBox2.Text, out iterationsNumber);
 
             this._iterationsNumber = iterationsNumber;
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            button5.BackColor = Color.White;
+            button4.BackColor = Color.Gainsboro;
+
+            this._isCalculatedByMean = true;
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            button4.BackColor = Color.White;
+            button5.BackColor = Color.Gainsboro;
+
+            this._isCalculatedByMean = false;
         }
     }
 }

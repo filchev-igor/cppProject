@@ -53,7 +53,10 @@ namespace StudentsApp
                                 "Teresa","Diaz",
                                 "Wanda","Thomas" };
 
-        Random rnd = new Random();
+        private Random rnd = new Random();
+
+        private const string RESULT_MARK_MEAN_LT = "Galutinis (Vid.)";
+        private const string RESULT_MARK_MEDIAN_LT = "Galutinis (Med.)";
 
         public void createFile(string fileName)
         {
@@ -82,8 +85,6 @@ namespace StudentsApp
 
         public void fillFileWithRandomData(string fileName, int iterationsNumber)
         {
-            Debug.WriteLine(iterationsNumber);
-
             string path = fileName + ".txt";
 
             if (!File.Exists(path))
@@ -125,6 +126,157 @@ namespace StudentsApp
 
                         sw.Write(text);
                     }
+                }
+            }
+        }
+
+        private double calculateFinalMark(List<double> homeworkMarksArray, double examMark, bool isCalculatedByMean)
+        {
+            double homeworksMarkResult = 0;
+
+            if (isCalculatedByMean)
+            {
+                foreach (double mark in homeworkMarksArray)
+                    homeworksMarkResult += mark;
+
+                homeworksMarkResult /= Convert.ToDouble(homeworkMarksArray.Count);
+            }
+            else
+            {
+                int arrayLength = homeworkMarksArray.Count;
+
+                if (arrayLength % 2 == 1)
+                {
+                    int position = (arrayLength + 1) / 2;
+
+                    homeworksMarkResult = homeworkMarksArray[position];
+                }
+                else
+                {
+                    int position = arrayLength / 2;
+
+                    homeworksMarkResult = (homeworkMarksArray[position] + homeworkMarksArray[position + 1]) / 2;
+
+                }
+            }
+
+            return 0.4 * homeworksMarkResult + 0.6 * examMark;
+        }
+
+        public void dataSortExport(string fileName, bool isCalculatedByMean)
+        {
+            List<List<string>> data = new List<List<string>>();
+            List<List<string>> modifiedData = new List<List<string>>();
+            List<List<string>> passedStudentsList = new List<List<string>>();
+            List<List<string>> failedStudentsList = new List<List<string>>();
+
+            string path = fileName + ".txt";
+
+            if (!File.Exists(path))
+                return;
+
+            using (StreamReader sr = File.OpenText(path))
+            {
+                string line = "";
+                
+                while ((line = sr.ReadLine()) != null)
+                {
+                    List<string> sList = new List<string>();
+
+                    foreach (string s in line.Split(' '))
+                        sList.Add(s);
+
+                    data.Add(sList);
+                }
+            }
+
+            foreach (List<string> array in data) {
+                if (array[0] == "Pavarde")
+                    continue;
+
+                List<string> lineArray = new List<string>();
+                List<double> homeworkMarksArray = new List<double>();
+
+                lineArray.Add(array[0]);
+                lineArray.Add(array[1]);
+
+                for (int i = 2; i < array.Count - 1; i++)
+                {
+                    double mark = Convert.ToDouble(array[i]);
+
+                    if (mark < 0)
+                        continue;
+
+                    homeworkMarksArray.Add(mark);
+                }
+
+                //2 instead of 1 due to existing empty space after last item
+                double examMark = Convert.ToDouble(array[array.Count - 2]);
+                double finalMark = calculateFinalMark(homeworkMarksArray, examMark, isCalculatedByMean);
+
+                array.Add(finalMark.ToString());
+
+                modifiedData.Add(array);
+            }
+
+            modifiedData.Sort((a, b) => b[2].CompareTo(a[2]));
+
+            foreach (List<string> array in modifiedData)
+            {
+                List<string> newArray = new List<string>();
+
+                double mark = Convert.ToDouble(array[2]);
+
+                newArray.Add(array[0]);
+                newArray.Add(array[1]);
+                newArray.Add(array[2]);
+
+                if (mark >= 5)
+                    passedStudentsList.Add(newArray);
+                else
+                    failedStudentsList.Add(newArray);
+            }
+
+            List<string> headerArray = new List<string>();
+
+            headerArray.Add(data[0][0]);
+            headerArray.Add(data[0][1]);
+            headerArray.Add(isCalculatedByMean ? RESULT_MARK_MEAN_LT : RESULT_MARK_MEDIAN_LT);
+
+            passedStudentsList.Insert(0, headerArray);
+            failedStudentsList.Insert(0, headerArray);
+
+            string passedStudentsPath = fileName + "_passed_students.txt";
+            string failedStudentsPath = fileName + "_failed_students.txt";
+
+            using (StreamWriter sw = File.AppendText(passedStudentsPath))
+            {
+                foreach (List<string> array in passedStudentsList)
+                {
+                    foreach (string s in array)
+                    {
+                        string text = s + " ";
+
+                        sw.Write(text);
+                    }
+                        
+
+                    sw.WriteLine();
+                }
+            }
+
+            using (StreamWriter sw = File.AppendText(failedStudentsPath))
+            {
+                foreach (List<string> array in failedStudentsList)
+                {
+                    foreach (string s in array)
+                    {
+                        string text = s + " ";
+
+                        sw.Write(text);
+                    }
+
+                    sw.WriteLine();
                 }
             }
         }

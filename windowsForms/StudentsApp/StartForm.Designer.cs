@@ -36,6 +36,8 @@ namespace StudentsApp
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.textBox2 = new System.Windows.Forms.TextBox();
+            this.button4 = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -58,7 +60,7 @@ namespace StudentsApp
             this.button3.Enabled = false;
             this.button3.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.button3.ForeColor = System.Drawing.Color.White;
-            this.button3.Location = new System.Drawing.Point(209, 109);
+            this.button3.Location = new System.Drawing.Point(617, 12);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(388, 69);
             this.button3.TabIndex = 2;
@@ -72,7 +74,7 @@ namespace StudentsApp
             this.button2.Enabled = false;
             this.button2.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.button2.ForeColor = System.Drawing.Color.White;
-            this.button2.Location = new System.Drawing.Point(209, 207);
+            this.button2.Location = new System.Drawing.Point(209, 103);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(388, 69);
             this.button2.TabIndex = 1;
@@ -82,7 +84,7 @@ namespace StudentsApp
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(209, 297);
+            this.textBox1.Location = new System.Drawing.Point(617, 103);
             this.textBox1.Name = "textBox1";
             this.textBox1.PlaceholderText = "Type file name to activate buttons";
             this.textBox1.Size = new System.Drawing.Size(388, 27);
@@ -98,26 +100,52 @@ namespace StudentsApp
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(209, 389);
+            this.label2.Location = new System.Drawing.Point(209, 272);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(388, 40);
+            this.label2.Size = new System.Drawing.Size(796, 73);
             this.label2.TabIndex = 4;
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(209, 341);
+            this.textBox2.Location = new System.Drawing.Point(617, 145);
             this.textBox2.Name = "textBox2";
             this.textBox2.PlaceholderText = "Number of iterations (for auto generated button only)";
             this.textBox2.Size = new System.Drawing.Size(388, 27);
             this.textBox2.TabIndex = 5;
             this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
+            // button4
+            // 
+            this.button4.BackColor = System.Drawing.Color.Gainsboro;
+            this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button4.Location = new System.Drawing.Point(617, 201);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(388, 45);
+            this.button4.TabIndex = 6;
+            this.button4.Text = "Calculate by median";
+            this.button4.UseVisualStyleBackColor = false;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
+            // button5
+            // 
+            this.button5.BackColor = System.Drawing.Color.White;
+            this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button5.Location = new System.Drawing.Point(209, 201);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(388, 45);
+            this.button5.TabIndex = 7;
+            this.button5.Text = "Calculate by mean";
+            this.button5.UseVisualStyleBackColor = false;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
             // StartForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(1128, 450);
+            this.Controls.Add(this.button5);
+            this.Controls.Add(this.button4);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.textBox1);
@@ -140,5 +168,7 @@ namespace StudentsApp
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button button5;
     }
 }
