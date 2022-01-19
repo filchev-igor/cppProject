@@ -1,0 +1,8 @@
+Pavarde Vardas ND1 ND2 ND3 ND4 ND5 Egzaminas
+Filchev Igor 4 5 10 7 0 8
+Morrison Morris 9 0 0 0 0 6
+April Nathan 1 5 2 10 2 8
+Johnson Kate 3 9 4 6 10 2
+Hoffmann Dastin 6 3 4 10 0 8
+Perry Harris 1 10 4 2 1 8 
+Bailey Long 10 9 8 9 1 9 7 1 7 9 

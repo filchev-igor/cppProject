@@ -37,6 +37,51 @@ private:
     string surname;
     vector<double> homeworksMark;
     double examMark;
+
+    vector<string> nameArray = {"Harry","Ross",
+                                "Bruce","Cook",
+                                "Carolyn","Morgan",
+                                "Albert","Walker",
+                                "Randy","Reed",
+                                "Larry","Barnes",
+                                "Lois","Wilson",
+                                "Jesse","Campbell",
+                                "Ernest","Rogers",
+                                "Theresa","Patterson",
+                                "Henry","Simmons",
+                                "Michelle","Perry",
+                                "Frank","Butler",
+                                "Shirley", "Brooks",
+                                "Rachel","Edwards",
+                                "Christopher","Perez",
+                                "Thomas","Baker",
+                                "Sara","Moore",
+                                "Chris","Bailey",
+                                "Roger","Johnson",
+                                "Marilyn","Thompson",
+                                "Anthony","Evans",
+                                "Julie","Hall",
+                                "Paula","Phillips",
+                                "Annie","Hernandez",
+                                "Dorothy","Murphy",
+                                "Alice","Howard"};
+
+    vector<string> surnameArray = {
+            "Ruth","Jackson",
+            "Debra","Allen",
+            "Gerald","Harris",
+            "Raymond","Carter",
+            "Jacqueline","Torres",
+            "Joseph","Nelson",
+            "Carlos","Sanchez",
+            "Ralph","Clark",
+            "Jean","Alexander",
+            "Stephen","Roberts",
+            "Eric","Long",
+            "Amanda","Scott",
+            "Teresa","Diaz",
+            "Wanda","Thomas"
+    };
 public:
     SortedStudent();
 

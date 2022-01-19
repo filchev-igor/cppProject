@@ -19,14 +19,14 @@ int main() {
     //student.createFile();
 
     //Time elapsed ~0.30 seconds
-    //student.fillFileWithRandomData();
+    student.fillFileWithRandomData();
 
     //Lines of codes 1217. Fill name "55"
     //Change vector to deque or list with CTRL_R command. Use match case and words
     //Time elapsed in seconds
     //Deque 0.031
     //Vector 0.047
-    student.exportSortedData();
+    //student.exportSortedData();
 
     duration = ( clock() - start ) / (double) CLOCKS_PER_SEC;
 
