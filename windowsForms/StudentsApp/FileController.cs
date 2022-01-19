@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -63,24 +64,26 @@ namespace StudentsApp
 
             using (StreamWriter sw = File.CreateText(path))
             {
-                sw.WriteLine("Pavarde");
-                sw.WriteLine("Vardas");
-                sw.WriteLine("ND1");
-                sw.WriteLine("ND2");
-                sw.WriteLine("ND3");
-                sw.WriteLine("ND4");
-                sw.WriteLine("ND5");
-                sw.WriteLine("ND6");
-                sw.WriteLine("ND7");
-                sw.WriteLine("ND8");
-                sw.WriteLine("ND9");
-                sw.WriteLine("ND10");
-                sw.WriteLine("Egzaminas");
+                sw.Write("Pavarde ");
+                sw.Write("Vardas ");
+                sw.Write("ND1 ");
+                sw.Write("ND2 ");
+                sw.Write("ND3 ");
+                sw.Write("ND4 ");
+                sw.Write("ND5 ");
+                sw.Write("ND6 ");
+                sw.Write("ND7 ");
+                sw.Write("ND8 ");
+                sw.Write("ND9 ");
+                sw.Write("ND10 ");
+                sw.Write("Egzaminas");
             }
         }
 
-        void fillFileWithRandomData(string fileName)
+        public void fillFileWithRandomData(string fileName, int iterationsNumber)
         {
+            Debug.WriteLine(iterationsNumber);
+
             string path = fileName + ".txt";
 
             if (!File.Exists(path))
@@ -88,9 +91,9 @@ namespace StudentsApp
 
             using (StreamWriter sw = File.AppendText(path))
             {
-                for (int i = 0; i < 10000; i++)
+                for (int i = 0; i < iterationsNumber; i++)
                 {
-                    List<string> dataVector = new List<string>;
+                    List<string> dataVector = new List<string>();
 
                     int randomNameKey = rnd.Next(0, nameArray.Count);
                     int randomSurnameKey = rnd.Next(0, surnameArray.Count);
@@ -114,8 +117,14 @@ namespace StudentsApp
 
                     dataVector.Add(examMark.ToString());
 
+                    sw.WriteLine();
+
                     foreach (string s in dataVector)
-                        sw.WriteLine(s);
+                    {
+                        string text = s + " ";
+
+                        sw.Write(text);
+                    }
                 }
             }
         }

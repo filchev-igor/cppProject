@@ -14,6 +14,7 @@ namespace StudentsApp
     public partial class StartForm : Form
     {
         private string _fileName;
+        private int _iterationsNumber = 100;
 
         public StartForm()
         {
@@ -52,11 +53,11 @@ namespace StudentsApp
             button3.BackColor = Color.SteelBlue;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void handleButton(string firstLabelText, string secondLabelText)
         {
             disableButtons();
 
-            label1.Text = "Creating file...";
+            label2.Text = "Creating file...";
 
             FileController fileController = new FileController();
 
@@ -64,7 +65,23 @@ namespace StudentsApp
 
             this._fileName = "";
             textBox1.Text = "";
-            label1.Text = "File was created";
+            label2.Text = "File was created";
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            disableButtons();
+
+            label2.Text = "Creating file...";
+
+            FileController fileController = new FileController();
+
+            fileController.createFile(_fileName);
+
+            this._fileName = "";
+            textBox1.Text = "";
+            textBox2.Text = "";
+            label2.Text = "File was created";
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -81,6 +98,36 @@ namespace StudentsApp
             enableButtons();
 
             this._fileName = fileName;
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            disableButtons();
+
+            label2.Text = "Filling file with the data...";
+
+            FileController fileController = new FileController();
+
+            fileController.fillFileWithRandomData(_fileName, _iterationsNumber);
+
+            this._fileName = "";
+            textBox1.Text = "";
+            textBox2.Text = "";
+            label2.Text = "File was extended with the data";
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+            int iterationsNumber = 0;
+
+            Int32.TryParse(textBox2.Text, out iterationsNumber);
+
+            this._iterationsNumber = iterationsNumber;
         }
     }
 }
