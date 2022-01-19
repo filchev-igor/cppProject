@@ -342,50 +342,13 @@ void SortedStudent::fillFileWithRandomData() {
     cout << CYCLE_NUMBER_QUESTION << endl;
     cin >> cycleNumber;
 
-    vector<string> nameArray = {"Harry","Ross",
-                                 "Bruce","Cook",
-                                 "Carolyn","Morgan",
-                                 "Albert","Walker",
-                                 "Randy","Reed",
-                                 "Larry","Barnes",
-                                 "Lois","Wilson",
-                                 "Jesse","Campbell",
-                                 "Ernest","Rogers",
-                                 "Theresa","Patterson",
-                                 "Henry","Simmons",
-                                 "Michelle","Perry",
-                                 "Frank","Butler",
-                                 "Shirley", "Brooks",
-                                  "Rachel","Edwards",
-                                  "Christopher","Perez",
-                                  "Thomas","Baker",
-                                  "Sara","Moore",
-                                  "Chris","Bailey",
-                                  "Roger","Johnson",
-                                  "Marilyn","Thompson",
-                                  "Anthony","Evans",
-                                  "Julie","Hall",
-                                  "Paula","Phillips",
-                                  "Annie","Hernandez",
-                                  "Dorothy","Murphy",
-                                  "Alice","Howard"};
-
-    vector<string> surnameArray = {
-            "Ruth","Jackson", "Debra","Allen",
-            "Gerald","Harris", "Raymond","Carter",
-            "Jacqueline","Torres", "Joseph","Nelson",
-                                "Carlos","Sanchez",
-                                "Ralph","Clark",
-                                "Jean","Alexander",
-                                "Stephen","Roberts",
-                                "Eric","Long",
-                                "Amanda","Scott",
-                                "Teresa","Diaz",
-                                "Wanda","Thomas"
-    };
-
     random_device rd;   // non-deterministic generator
     mt19937 gen(rd());  // to seed mersenne twister.
+
+    uniform_int_distribution<> generatedHomeworksNumber(1, 10);
+    uniform_int_distribution<> generatedMark(1, 10);
+    uniform_int_distribution<> generatedNameKey(0, 53);
+    uniform_int_distribution<> generatedSurnameKey(0, 27);
 
     ofstream fileOut;
 
@@ -398,12 +361,6 @@ void SortedStudent::fillFileWithRandomData() {
         vector<string> dataVector;
 
         dataVector.resize(0);
-
-        uniform_int_distribution<int> generatedHomeworksNumber(1, 10);
-        uniform_int_distribution<int> generatedMark(1, 10);
-        uniform_int_distribution<int> generatedNameKey(0, (int) nameArray.size());
-        uniform_int_distribution<int> generatedSurnameKey(0, (int) surnameArray.size());
-
         dataVector.push_back(nameArray[generatedNameKey(gen)]);
         dataVector.push_back(surnameArray[generatedSurnameKey(gen)]);
 

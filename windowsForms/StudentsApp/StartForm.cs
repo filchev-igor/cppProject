@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,7 +20,7 @@ namespace StudentsApp
             InitializeComponent();
         }
 
-        private void disableButtons(Button activeButton)
+        private void disableButtons(Button activeButton = default)
         {
             if (activeButton != button1)
             {
@@ -51,28 +52,16 @@ namespace StudentsApp
             button3.BackColor = Color.SteelBlue;
         }
 
-        private void createFile(string fileName)
-        {
-
-            std::ofstream fileOut;
-
-            fileOut.open(fileName, ios_base::in);
-
-            if (fileOut)
-                return;
-
-            fileOut.open(fileName, ios_base::app);
-
-            fileOut << "Pavarde Vardas ND1 ND2 ND3 ND4 ND5 ND6 ND7 ND8 ND9 ND10 Egzaminas" << endl;
-        }
-
         private void button1_Click(object sender, EventArgs e)
         {
-            string fileName = _fileName;
+            disableButtons();
 
-            disableButtons(button1);
+            FileController fileController = new FileController();
+
+            fileController.createFile(_fileName);
 
             this._fileName = "";
+            textBox1.Text = "";
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
